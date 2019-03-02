@@ -1,0 +1,8 @@
+.display-result {
+  align-items: center;
+  display: inline-block;
+  width: 25em;
+  height: auto;
+  margin-left: 1%;
+  margin-top: 1%;
+}

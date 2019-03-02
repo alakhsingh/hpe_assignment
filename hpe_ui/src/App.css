@@ -1,0 +1,22 @@
+.App {
+  text-align: center;
+}
+
+.searchDiv {
+  justify-content: center;
+  width: 25%;
+  margin-left: 35%;
+  margin-top: 5%;
+}
+
+.search {
+  margin-left: 39%;
+  margin-top: 1em;
+}
+
+.display {
+  margin-top: 3em;
+  align-items: center;
+  display: block;
+  height: auto;
+}
