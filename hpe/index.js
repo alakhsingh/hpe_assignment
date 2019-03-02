@@ -10,10 +10,7 @@ var fs = require("fs");
 
 app.get("/", (req, res) => {
   const { spawn } = require("child_process");
-  const ls = spawn("python3", [
-    "/Users/AlakhSingh/PycharmProjects/hpe/thread.py",
-    null
-  ]);
+  const ls = spawn("python3", ["thread.py", null]);
   ls.stdout.on("data", data => {
     if (data.toString().indexOf("123456789") >= 0) {
       fs.readFile("output_100.txt", function(err, s) {
@@ -42,10 +39,7 @@ app.post("/search", function(req, res) {
   var item = req.body.search_item;
   console.log("search item " + item);
   const { spawn } = require("child_process");
-  const ls = spawn("python3", [
-    "/Users/AlakhSingh/PycharmProjects/hpe/thread.py",
-    item
-  ]);
+  const ls = spawn("python3", ["thread.py", item]);
   var result = 0;
   var str = "";
   ls.stdout.on("data", data => {

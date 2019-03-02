@@ -1,4 +1,5 @@
-import io, time
+import io
+import time
 import string
 import threading
 import sys
@@ -21,14 +22,14 @@ class WordCount:
         self.file_name = self.path+"/output.txt"
         self.file_name_top = self.path+"/output_100.txt"
         self.search_file_name = self.path+"/search.txt"
+        self.file_main = self.path+"/filemain.txt"
         self.platform = platform.system()
 
     def readMainFile(self):
-        with io.open('/Users/AlakhSingh/PycharmProjects/hpe/filemain.txt', 'r', encoding='utf8') as fin:
+        with io.open(self.file_main, 'r', encoding='utf8') as fin:
             for line in fin:
                 if line != '':
                     self.files.append(line.rstrip())
-
 
     def readFromFiles(self, file):
         word_count = {}
@@ -50,19 +51,23 @@ class WordCount:
                 self.words[key] = val
             if key not in self.word_count:
                 if self.platform == 'Windows':
-                    self.word_count[key] = [{"file":file.split("\/")[-1], "count":val}]
+                    self.word_count[key] = [
+                        {"file": file.split("\/")[-1], "count":val}]
                 else:
-                    self.word_count[key] = [{"file": file.split("/")[-1], "count": val}]
+                    self.word_count[key] = [
+                        {"file": file.split("/")[-1], "count": val}]
             else:
                 if self.platform == 'Windows':
-                    self.word_count[key].append({"file":file.split("\/")[-1], "count":val})
+                    self.word_count[key].append(
+                        {"file": file.split("\/")[-1], "count": val})
                 else:
-                    self.word_count[key].append({"file":file.split("/")[-1], "count":val})
+                    self.word_count[key].append(
+                        {"file": file.split("/")[-1], "count": val})
         self.file_count[file] = word_count
         self.mutex.release()
 
     def getFileName(self):
-        return (self.file_name,self.search_file_name)
+        return (self.file_name, self.search_file_name)
 
     def startThreads(self):
         t = []
@@ -90,17 +95,18 @@ class WordCount:
                             s[word] += 1
 
     def prettyPrint(self, search):
-        output = []#{"total_word_count":self.words, "sort_by_word": self.word_count, "sort_by_file": self.file_count}
+        output = []
         output_first_100 = []
         count = 0
-        for key,val in sorted(self.words.items(), key=lambda t: t[1], reverse=True):
-            k =  {"word":key,"total_count":val, "in_files":self.word_count[key]}
+        for key, val in sorted(self.words.items(), key=lambda t: t[1], reverse=True):
+            k = {"word": key, "total_count": val,
+                 "in_files": self.word_count[key]}
             output.append(k)
             if count < 100:
                 output_first_100.append(k)
             count += 1
-        new_k =  {"type":"success","data":output_first_100}
-        new_o = {"type":"success","data":output}
+        new_k = {"type": "success", "data": output_first_100}
+        new_o = {"type": "success", "data": output}
         o = open(self.file_name, "w")
         js = json.dumps(new_o)
         o.write(js)
@@ -116,14 +122,14 @@ class WordCount:
                 if search == i['word']:
                     total_count = i["total_count"]
                     total_by_files = i["in_files"]
-            k = {"type":"success","data": [{"word": search, "total_count": total_count, "in_files": total_by_files}]}
+            k = {"type": "success", "data": [
+                {"word": search, "total_count": total_count, "in_files": total_by_files}]}
             s = open(self.search_file_name, "w")
             sj = json.dumps(k)
             s.write(sj)
             s.close()
         else:
             print(output)
-
 
 
 if __name__ == "__main__":
@@ -151,13 +157,14 @@ if __name__ == "__main__":
             data = data['data']
             for i in data:
                 if search == i['word']:
-                    total_count =  i["total_count"]
+                    total_count = i["total_count"]
                     total_by_files = i["in_files"]
                     break
             if total_count == 0:
                 k = {"type": "Failure", "message": "Word not found"}
             else:
-                k = {"type": "success", "data": [{"word": search, "total_count": total_count, "in_files": total_by_files}]}
+                k = {"type": "success", "data": [
+                    {"word": search, "total_count": total_count, "in_files": total_by_files}]}
             s = open(search_file, "w")
             sj = json.dumps(k)
             s.write(sj)
@@ -167,4 +174,4 @@ if __name__ == "__main__":
             w.startThreads()
             w.prettyPrint(search)
     print("123456789")
-    #w.manualCount()
+    # w.manualCount()

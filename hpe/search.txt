@@ -1,1 +1,1 @@
-{"type": "Failure", "message": "Word not found"}
+{"type": "success", "data": [{"word": "Harry", "total_count": 13561, "in_files": [{"file": "file2.txt", "count": 1502}, {"file": "file1.txt", "count": 1212}, {"file": "file3.txt", "count": 1817}, {"file": "file5.txt", "count": 3490}, {"file": "file6.txt", "count": 2612}, {"file": "file4.txt", "count": 2928}]}]}

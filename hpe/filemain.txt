@@ -1,1 +1,6 @@
-/Users/AlakhSingh/PycharmProjects/hpe/file1.txt/Users/AlakhSingh/PycharmProjects/hpe/file2.txt/Users/AlakhSingh/PycharmProjects/hpe/file3.txt/Users/AlakhSingh/PycharmProjects/hpe/file4.txt/Users/AlakhSingh/PycharmProjects/hpe/file5.txt/Users/AlakhSingh/PycharmProjects/hpe/file6.txt
+file1.txt
+file2.txt
+file3.txt
+file4.txt
+file5.txt
+file6.txt
