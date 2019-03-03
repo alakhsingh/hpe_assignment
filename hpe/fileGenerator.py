@@ -2,12 +2,14 @@ import random
 ch = list("abcdefghijklmnopqrstuvwxyz")
 
 f1 = open("filemain.txt", "w")
-for i in range(1, 201):
+num_files = 201
+num_words = 50000
+for i in range(1, num_files):
     fname = "file"+str(i)+".txt"
     f = open(fname, "w")
     print(fname)
     p = ""
-    for j in range(50000):
+    for j in range(num_words):
         v = ""
         for k in range(random.randint(1, 7)):
             v += ch[random.randint(0, 25)]
