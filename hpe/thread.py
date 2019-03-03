@@ -112,7 +112,7 @@ class WordCount:
         js = json.dumps(new_o)
         o.write(js)
         o.close()
-        o = open(self.file_name_top, "w", encoding='utf8')
+        o = open(self.file_name_top, 'w')
         js = json.dumps(new_k)
         o.write(js)
         o.close()
@@ -125,7 +125,7 @@ class WordCount:
                     total_by_files = i["in_files"]
             k = {"type": "success", "data": [
                 {"word": search, "total_count": total_count, "in_files": total_by_files}]}
-            s = open(self.search_file_name, "w", encoding='utf8')
+            s = open(self.search_file_name, 'w')
             sj = json.dumps(k)
             s.write(sj)
             s.close()
@@ -137,45 +137,13 @@ class WordCount:
 if __name__ == "__main__":
     search = sys.argv[1]
     w = WordCount()
-    file, search_file = w.getFileName()
-    output_file = Path(file)
-    has_file = False
-    data = None
-    if output_file.is_file():
-        with open(file) as f:
-            data = json.loads(f.read())
-        has_file = True
     if search == 'null':
-        if has_file:
-            pprint.pprint(data)
-        else:
-            w.readMainFile()
-            w.startThreads()
-            w.prettyPrint(False)
+        w.readMainFile()
+        w.startThreads()
+        w.prettyPrint(False)
     else:
-        if has_file:
-            total_count = 0
-            total_by_files = 0
-            data = data['data']
-            for i in data:
-                if search == i['word']:
-                    total_count = i["total_count"]
-                    total_by_files = i["in_files"]
-                    break
-            if total_count == 0:
-                k = {"type": "Failure", "message": "Word not found"}
-            else:
-                k = {"type": "success", "data": [
-                    {"word": search, "total_count": total_count, "in_files": total_by_files}]}
-            s = open(search_file, "w", encoding='utf8')
-            sj = json.dumps(k)
-            s.write(sj)
-            s.close()
-            w.prettyPrint(k)
-        else:
-            w.readMainFile()
-            w.startThreads()
-            w.prettyPrint(search)
-            w.prettyPrint(search)
+        w.readMainFile()
+        w.startThreads()
+        w.prettyPrint(search)
     print("123456789")
     # w.manualCount()
