@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import json
 import platform
+import pprint
 
 
 class WordCount:
@@ -111,7 +112,7 @@ class WordCount:
         js = json.dumps(new_o)
         o.write(js)
         o.close()
-        o = open(self.file_name_top, "w")
+        o = open(self.file_name_top, "w", encoding='utf8')
         js = json.dumps(new_k)
         o.write(js)
         o.close()
@@ -124,12 +125,13 @@ class WordCount:
                     total_by_files = i["in_files"]
             k = {"type": "success", "data": [
                 {"word": search, "total_count": total_count, "in_files": total_by_files}]}
-            s = open(self.search_file_name, "w")
+            s = open(self.search_file_name, "w", encoding='utf8')
             sj = json.dumps(k)
             s.write(sj)
             s.close()
+            pprint.pprint(k)
         else:
-            print(output)
+            pprint.pprint(output)
 
 
 if __name__ == "__main__":
@@ -145,7 +147,7 @@ if __name__ == "__main__":
         has_file = True
     if search == 'null':
         if has_file:
-            print(data)
+            pprint.pprint(data)
         else:
             w.readMainFile()
             w.startThreads()
@@ -165,13 +167,15 @@ if __name__ == "__main__":
             else:
                 k = {"type": "success", "data": [
                     {"word": search, "total_count": total_count, "in_files": total_by_files}]}
-            s = open(search_file, "w")
+            s = open(search_file, "w", encoding='utf8')
             sj = json.dumps(k)
             s.write(sj)
             s.close()
+            w.prettyPrint(k)
         else:
             w.readMainFile()
             w.startThreads()
+            w.prettyPrint(search)
             w.prettyPrint(search)
     print("123456789")
     # w.manualCount()
