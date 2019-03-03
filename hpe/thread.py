@@ -32,19 +32,21 @@ class WordCount:
                 if line != '':
                     self.files.append(line.rstrip())
 
-    def readFromFiles(self, file):
+    def readFromFiles(self, file, val):
         word_count = {}
         words = []
+        print("val", val)
         with io.open(file, 'r', encoding='utf8') as fin:
             for line in fin:
                 line = line.translate(self.table)
                 for word in line.split():
                     if word not in word_count:
-                        word_count[word] = 0
+                        word_count[word] = 1
                         words.append(word)
                     else:
                         word_count[word] += 1
         self.mutex.acquire()
+        print("Thread ", val, "in critical section")
         for key, val in word_count.items():
             if key in self.words:
                 self.words[key] += val
@@ -73,7 +75,8 @@ class WordCount:
     def startThreads(self):
         t = []
         for i, file in enumerate(self.files):
-            t.append(threading.Thread(target=self.readFromFiles, args=(file,)))
+            t.append(threading.Thread(
+                target=self.readFromFiles, args=(file, i,)))
             t[-1].start()
         [i.join() for i in t]
 
@@ -87,13 +90,31 @@ class WordCount:
                     line = line.translate(self.table)
                     for word in line.split():
                         if word not in f[i]:
-                            f[i][word] = 1
+                            f[i][word] = 0
                         else:
                             f[i][word] += 1
                         if word not in s:
                             s[word] = 1
                         else:
                             s[word] += 1
+
+        success = 0
+        failure = 0
+        for key, val in s.items():
+            if val != self.words[key]:
+                print("-------- Failed --------")
+                print("Word", key)
+                print("Val from sequential count ", val,
+                      "Val from threaded count", self.words[key])
+                failure += 1
+            else:
+                print("-------- Passed --------")
+                print("Word", key)
+                print("Val from sequential count ", val,
+                      "Val from threaded count", self.words[key])
+                success += 1
+        print("----- Successfull Cases -----", success)
+        print("----- Failed Cases -----", failure)
 
     def prettyPrint(self, search):
         output = []
@@ -141,6 +162,10 @@ if __name__ == "__main__":
         w.readMainFile()
         w.startThreads()
         w.prettyPrint(False)
+    elif search == 'test':
+        w.readMainFile()
+        w.startThreads()
+        w.manualCount()
     else:
         w.readMainFile()
         w.startThreads()
