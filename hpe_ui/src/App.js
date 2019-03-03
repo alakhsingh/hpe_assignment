@@ -91,10 +91,12 @@ class App extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="/components/">About</NavLink>
+                  <NavLink href="https://github.com/alakhsingh/hpe_assignment/wiki">
+                    About
+                  </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="https://github.com/reactstrap/reactstrap">
+                  <NavLink href="https://github.com/alakhsingh/hpe_assignment">
                     GitHub
                   </NavLink>
                 </NavItem>
